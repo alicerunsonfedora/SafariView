@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-/// A view that displays a webpage inside of a Safari view controller.
+/// A view that displays a webpage inside of a Safari view controller dynamically.
 @available(iOS 13.0, *)
 public struct SafariView: View {
 
@@ -18,11 +18,20 @@ public struct SafariView: View {
     @Binding fileprivate var reader: Bool
     @Binding fileprivate var collapsed: Bool
 
+    /// Initializes a ``SafariView/SafariView`` with a specified URL to open.
     public init(url: Binding<URL?>) {
         self._url = url
         self._reader = .constant(false)
         self._collapsed = .constant(false)
     }
+
+    /// Initializes a ``SafariView/SafariView`` with a specified URL to open as a string.
+    public init(string: Binding<String>) {
+        self._url = .constant(.init(string: string.wrappedValue))
+        self._reader = .constant(false)
+        self._collapsed = .constant(false)
+    }
+
 
     fileprivate init(
         url: Binding<URL?>,

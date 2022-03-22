@@ -9,7 +9,14 @@ import Foundation
 import SwiftUI
 import SafariServices
 
-/// A view that displays an in-app browser using `SFSafariViwController`.
+/// A primitive view that creates a bridge of `SFSafariViewController`.
+///
+/// RawSafariView creates a bridge to an `SFSafariViewController` and exposes configurations available in
+/// `SFSafariViewController.Configuration` as view modifiers. It is designed to provide an interface for the Safari
+/// view controller using SwiftUI.
+///
+/// - Important: Generally, using ``SafariView/SafariView`` instead of RawSafariView is more ideal since it elevates
+///   RawSafariView to also account for state management.
 @available(iOS 13.0, *)
 public struct RawSafariView: UIViewControllerRepresentable {
 
@@ -22,11 +29,13 @@ public struct RawSafariView: UIViewControllerRepresentable {
     /// Whether to collapse the bar.
     fileprivate let collapseBar: Bool
 
+    /// Creates an instance of a `SFSafariViewController` with the specified URL.
     /// - Parameter urlString: A string containing the URL the Safari view controller will open.
     public init(_ urlString: String) {
         self.init(urlString, reader: false, collapses: false)
     }
 
+    /// Creates an instance of a `SFSafariViewController` with a string representing the specified URL to open.
     /// - Parameter url: The URL the Safari view controller will open.
     public init(_ url: URL) {
         self.init(url, reader: false, collapses: false)
@@ -44,6 +53,8 @@ public struct RawSafariView: UIViewControllerRepresentable {
         self.collapseBar = collapseBar
     }
 
+    /// Makes the `UIViewController` with the specified context applied.
+    /// - Note: This was inherited from `UIViewControllerRepresentable.makeUIViewController`.
     public func makeUIViewController(context: UIViewControllerRepresentableContext<Self>) -> SFSafariViewController {
         let configuration = SFSafariViewController.Configuration()
         configuration.entersReaderIfAvailable = reader
@@ -51,6 +62,8 @@ public struct RawSafariView: UIViewControllerRepresentable {
         return SFSafariViewController(url: url, configuration: configuration)
     }
 
+    /// Updates the `UIViewController` with the specified context applied.
+    /// - Note: This was inherited from `UIViewControllerRepresentable.updateUIViewController`.
     public func updateUIViewController(
         _ uiViewController: SFSafariViewController,
         context: UIViewControllerRepresentableContext<RawSafariView>

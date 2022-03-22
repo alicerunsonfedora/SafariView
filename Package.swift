@@ -22,8 +22,5 @@ let package = Package(
         .target(
             name: "SafariView",
             dependencies: []),
-        .testTarget(
-            name: "SafariViewTests",
-            dependencies: ["SafariView"]),
     ]
 )
